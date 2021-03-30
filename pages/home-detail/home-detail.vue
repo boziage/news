@@ -14,6 +14,8 @@
 					<text>{{formData.thumbs_up_count}} 赞</text>
 				</view>
 			</view>
+			<!-- get_detail里面有是否关注作者的key -->
+			<button class="detail-header_button" type="default" @click="follow(formData.author.id)">{{formData.is_author_like?'取消关注':'关注'}}</button>
 		</view>
 		
 		<view class="detail-content">
@@ -24,8 +26,8 @@
 			
 			 <view class="detail-comment">
 			 	<view class="comment-title">最新评论</view>
-			 	<view class="comment-content">
-					<comments-box></comments-box>
+			 	<view v-for="item in commentsList" :key="item.comment_id" class="comment-content">
+					<comments-box :comments="item" @reply="reply"></comments-box>
 				</view>
 			 </view>
 		</view>
@@ -36,14 +38,15 @@
 				<uni-icons type="compose" size="16" color="#f07373"></uni-icons>
 			</view>
 			<view class="detail-buttom_icons">
-				<view class="detail-buttom_icons-box">
+				<view class="detail-buttom_icons-box" @click="open">
 					<uni-icons type="chat" size="22" color="#f07373"></uni-icons>
 				</view>
-				<view class="detail-buttom_icons-box">
-					<uni-icons type="heart" size="22" color="#f07373"></uni-icons>
+				<!-- get_detail里面有是否收藏的key -->
+				<view class="detail-buttom_icons-box" @click="likeTap(formData._id)">
+					<uni-icons :type="formData.is_like?'heart-filled':'heart'" size="22" color="#f07373"></uni-icons>
 				</view>
-				<view class="detail-buttom_icons-box">
-					<uni-icons type="hand-thumbsup" size="22" color="#f07373"></uni-icons>
+				<view class="detail-buttom_icons-box" @click="thumbsup(formData._id)">
+					<uni-icons :type="formData.is_thumbs_up?'hand-thumbsup-filled':'hand-thumbsup'" size="22" color="#f07373"></uni-icons>
 				</view>
 			</view>
 		</view>
@@ -77,18 +80,44 @@
 				formData: {},
 				noData: '<p style="text-align:center;color:#666">详情加载中...</p>',
 				// 输入框的值
-				commentValue: ''
+				commentValue: '',
+				commentsList: [],
+				replyFormData: {}
 			}
 		},
 		onLoad(query) {
-			this.formData = JSON.parse(query.params)
+			const data = JSON.parse(query.params)
+			this.formData = data
 			this.getDetail()
+			this.getComments()
 		},
 		// onLoad这些节点还没渲染完成,onReady表示所有页面渲染完毕后使用
 		onReady() {
 			
 		},
 		methods: {
+			// 打开评论列表
+			open() {
+				uni.navigateTo({
+					url:'../detail-comments/detail-comments?id='+this.formData._id
+				})
+			},
+			// 关注
+			follow(author_id) {
+				// console.log('关注');
+				this.setUpdateAuthor(author_id)
+			},
+			// 收藏
+			likeTap(article_id) {
+				console.log('收藏文章');
+				this.setUpdataLike(article_id)
+			},
+			// 点赞
+			thumbsup(article_id) {
+				this.setUpdataThumbs(article_id)
+			},
+
+
 			// 获取详情信息
 			getDetail() {
 				this.$api.get_detail({
@@ -99,13 +128,92 @@
 					console.log(res);
 				})
 			},
+			// 更新评论
+			setUpdateComment(content) {
+				const formdata = {
+					article_id: this.formData._id,
+					...content
+				}
+				uni.showLoading()
+				this.$api.update_comment(formdata).then(res => {
+					console.log(res);
+					uni.hideLoading()
+					uni.showToast({
+						title: '评论成功',
+						icon: 'none'
+					})
+					this.commentValue = ''
+					this.getComments()
+					this.closeComment()
+					this.replyFormData = {}
+				})
+			},
+			// 请求评论内容
+			getComments() {
+				this.$api.get_comments({
+					article_id: this.formData._id
+				}).then(res => {
+					console.log(res);
+					const {data} = res
+					this.commentsList = data
+				})
+			},
+			// 关注作者
+			setUpdateAuthor(author_id) {
+				uni.showLoading()
+				this.$api.update_author({
+					author_id,
+				}).then(res => {
+					uni.hideLoading()
+					this.formData.is_author_like = !this.formData.is_author_like
+					uni.showToast({
+						title:this.formData.is_author_like?'关注作者成功':'取消关注作者',
+						icon:'none'
+					})
+				})
+			},
+			// 收藏文章
+			setUpdataLike(article_id) {
+				uni.showLoading()
+				this.$api.update_like({
+					article_id,
+				}).then(res => {
+					uni.hideLoading()
+					this.formData.is_like = !this.formData.is_like
+					uni.$emit('update_article')
+					uni.showToast({
+						title:this.formData.is_like?'收藏成功':'取消收藏',
+						icon:'none'
+					})
+				})
+			},
+			// 点赞
+			setUpdataThumbs(article_id) {
+				uni.showLoading()
+				this.$api.update_thumbsup({
+					article_id,
+				}).then(res => {
+					uni.hideLoading()
+					if(!this.formData.is_thumbs_up) this.formData.thumbs_up_count++
+					this.formData.is_thumbs_up = true
+					uni.showToast({
+						title: res.msg,
+						icon:'none'
+					})
+				})
+			},
+			
+			
+			
 			// 打开评论发布窗口
 			openComment() {
 				this.$refs.popup.open()
 			},
+			// 关闭评论发布窗口
 			closeComment() {
 				this.$refs.popup.close()
 			},
+			// 提交评论发布窗口
 			submitComment() {
 				console.log('发布')
 				if(!this.commentValue) {
@@ -115,29 +223,25 @@
 					})
 					return
 				}
-				this.setUpdateComment(this.commentValue)
+				this.setUpdateComment({content:this.commentValue,...this.replyFormData})
 			},
-			setUpdateComment(content) {
-				uni.showLoading()
-				this.$api.update_comment({
-					article_id: this.formData._id,
-					content
-				}).then(res => {
-					console.log(res);
-					uni.hideLoading()
-					uni.showToast({
-						title: '评论成功',
-						icon: 'none'
-					})
-					this.commentValue = ''
-					this.closeComment()
-				})
-			},
+			reply(e) {
+				this.replyFormData = {
+					"comment_id": e.comments.comment_id,
+					"isReply": e.isReply
+				}
+				if(e.comments.reply_id) {
+					this.replyFormData.reply_id = e.comments.reply_id
+				}
+				console.log(this.replyFormData);
+				this.openComment()
+				// console.log(this.replyFormData);
+			}
 		},
 	}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	.detail {
 		padding: 15px 0 54px;
 	}
@@ -182,6 +286,13 @@
 				}
 			}
 		}
+		.detail-header_button {
+			flex-shrink: 0;
+			height: 30px;
+			font-size: 12px;
+			color: #fff;
+			background-color: $mk-base-color;
+		}
 	}
 	.detail-content {
 		margin-top: 20px;
@@ -199,8 +310,11 @@
 				border-bottom: 1px solid #f5f5f5;
 			}
 			.comment-content {
+				margin: 7px 5px 0px;
 				padding: 0 15px;
-				border-top: 1px solid #eee;
+				border: 1px solid #ccc;
+				box-shadow: 0 0.5px 2px rgba($color: #000000, $alpha: 0.3);
+				border-radius: 5px;
 			}
 		}
 	}

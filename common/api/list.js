@@ -66,3 +66,24 @@ export const update_comment = data => {
 		data
 	})
 }
+
+export const get_comments = data => {
+	return $http({
+		url:'get_comments',
+		data
+	})
+}
+
+export const update_author = data => {
+	return $http({
+		url:'update_author',
+		data
+	})
+}
+
+export const update_thumbsup = data => {
+	return $http({
+		url:'update_thumbsup',
+		data
+	})
+}

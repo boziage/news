@@ -68,3 +68,10 @@ update_like:相关收藏数据,持久化保存在相关用户的数据里
 
 详情数据的加载:新建get_detail云函数,用户传递user_id与article_id
 返回收藏,点赞,关注作者,文章详情这些数据
+
+富文本渲染及发布窗口(popup+transiton)插件
+
+评论内容:comments-box组件
+如何做到评论内评论?递归,comments-box导入comments-box,调用,
+最外面那层遍历的是commentsList,里面那层遍历的是comments里面的replys,再里面就是replys里面的...
+(很巧妙)

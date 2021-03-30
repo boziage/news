@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "评论详情",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "comments-box": "/components/comments-box/comments-box"
+  }
+}

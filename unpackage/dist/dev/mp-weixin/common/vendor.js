@@ -1793,7 +1793,7 @@ uni$1;exports.default = _default;
 
 /***/ }),
 
-/***/ 116:
+/***/ 124:
 /*!***************************************************************!*\
   !*** E:/Workspace/uni-app/news/components/uni-icons/icons.js ***!
   \***************************************************************/
@@ -1935,7 +1935,99 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 /***/ }),
 
-/***/ 124:
+/***/ 139:
+/*!***************************************************************!*\
+  !*** E:/Workspace/uni-app/news/components/uni-popup/popup.js ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _message = _interopRequireDefault(__webpack_require__(/*! ./message.js */ 140));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+// 定义 type 类型:弹出类型：top/bottom/center
+var config = {
+  // 顶部弹出
+  top: 'top',
+  // 底部弹出
+  bottom: 'bottom',
+  // 居中弹出
+  center: 'center',
+  // 消息提示
+  message: 'top',
+  // 对话框
+  dialog: 'center',
+  // 分享
+  share: 'bottom' };var _default =
+
+
+{
+  data: function data() {
+    return {
+      config: config,
+      popupWidth: 0,
+      popupHeight: 0 };
+
+  },
+  mixins: [_message.default],
+  computed: {
+    isDesktop: function isDesktop() {
+      return this.popupWidth >= 500 && this.popupHeight >= 500;
+    } },
+
+  mounted: function mounted() {var _this = this;
+    var fixSize = function fixSize() {var _uni$getSystemInfoSyn =
+
+
+
+
+      uni.getSystemInfoSync(),windowWidth = _uni$getSystemInfoSyn.windowWidth,windowHeight = _uni$getSystemInfoSyn.windowHeight,windowTop = _uni$getSystemInfoSyn.windowTop;
+      _this.popupWidth = windowWidth;
+      _this.popupHeight = windowHeight + windowTop;
+    };
+    fixSize();
+
+
+
+
+
+
+  } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+
+/***/ 140:
+/*!*****************************************************************!*\
+  !*** E:/Workspace/uni-app/news/components/uni-popup/message.js ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = {
+  created: function created() {
+    if (this.type === 'message') {
+      // 不显示遮罩
+      this.maskShow = false;
+      // 获取子组件对象
+      this.childrenMsg = null;
+    }
+  },
+  methods: {
+    customOpen: function customOpen() {
+      if (this.childrenMsg) {
+        this.childrenMsg.open();
+      }
+    },
+    customClose: function customClose() {
+      if (this.childrenMsg) {
+        this.childrenMsg.close();
+      }
+    } } };exports.default = _default;
+
+/***/ }),
+
+/***/ 148:
 /*!***************************************************************************!*\
   !*** E:/Workspace/uni-app/news/components/gaoyia-parse/libs/html2json.js ***!
   \***************************************************************************/
@@ -1957,8 +2049,8 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 
 
-var _wxDiscode = _interopRequireDefault(__webpack_require__(/*! ./wxDiscode */ 125));
-var _htmlparser = _interopRequireDefault(__webpack_require__(/*! ./htmlparser */ 126));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} /**
+var _wxDiscode = _interopRequireDefault(__webpack_require__(/*! ./wxDiscode */ 149));
+var _htmlparser = _interopRequireDefault(__webpack_require__(/*! ./htmlparser */ 150));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} /**
                                                                                                                                                                  * html2Json 改造来自: https://github.com/Jxck/html2json
                                                                                                                                                                  *
                                                                                                                                                                  *
@@ -2207,7 +2299,7 @@ html2json;exports.default = _default;
 
 /***/ }),
 
-/***/ 125:
+/***/ 149:
 /*!***************************************************************************!*\
   !*** E:/Workspace/uni-app/news/components/gaoyia-parse/libs/wxDiscode.js ***!
   \***************************************************************************/
@@ -2426,7 +2518,136 @@ function urlToHttpUrl(url, domain) {
 
 /***/ }),
 
-/***/ 126:
+/***/ 15:
+/*!**********************************************************************************************************!*\
+  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js ***!
+  \**********************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return normalizeComponent; });
+/* globals __VUE_SSR_CONTEXT__ */
+
+// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
+// This module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle.
+
+function normalizeComponent (
+  scriptExports,
+  render,
+  staticRenderFns,
+  functionalTemplate,
+  injectStyles,
+  scopeId,
+  moduleIdentifier, /* server only */
+  shadowMode, /* vue-cli only */
+  components, // fixed by xxxxxx auto components
+  renderjs // fixed by xxxxxx renderjs
+) {
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // fixed by xxxxxx auto components
+  if (components) {
+    if (!options.components) {
+      options.components = {}
+    }
+    var hasOwn = Object.prototype.hasOwnProperty
+    for (var name in components) {
+      if (hasOwn.call(components, name) && !hasOwn.call(options.components, name)) {
+        options.components[name] = components[name]
+      }
+    }
+  }
+  // fixed by xxxxxx renderjs
+  if (renderjs) {
+    (renderjs.beforeCreate || (renderjs.beforeCreate = [])).unshift(function() {
+      this[renderjs.__module] = this
+    });
+    (options.mixins || (options.mixins = [])).push(renderjs)
+  }
+
+  // render functions
+  if (render) {
+    options.render = render
+    options.staticRenderFns = staticRenderFns
+    options._compiled = true
+  }
+
+  // functional template
+  if (functionalTemplate) {
+    options.functional = true
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = 'data-v-' + scopeId
+  }
+
+  var hook
+  if (moduleIdentifier) { // server build
+    hook = function (context) {
+      // 2.3 injection
+      context =
+        context || // cached call
+        (this.$vnode && this.$vnode.ssrContext) || // stateful
+        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
+      // 2.2 with runInNewContext: true
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__
+      }
+      // inject component styles
+      if (injectStyles) {
+        injectStyles.call(this, context)
+      }
+      // register component module identifier for async chunk inferrence
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier)
+      }
+    }
+    // used by ssr in case component is cached and beforeCreate
+    // never gets called
+    options._ssrRegister = hook
+  } else if (injectStyles) {
+    hook = shadowMode
+      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
+      : injectStyles
+  }
+
+  if (hook) {
+    if (options.functional) {
+      // for template-only hot-reload because in that case the render fn doesn't
+      // go through the normalizer
+      options._injectStyles = hook
+      // register for functioal component in vue file
+      var originalRender = options.render
+      options.render = function renderWithStyleInjection (h, context) {
+        hook.call(context)
+        return originalRender(h, context)
+      }
+    } else {
+      // inject component registration as beforeCreate hook
+      var existing = options.beforeCreate
+      options.beforeCreate = existing
+        ? [].concat(existing, hook)
+        : [hook]
+    }
+  }
+
+  return {
+    exports: scriptExports,
+    options: options
+  }
+}
+
+
+/***/ }),
+
+/***/ 150:
 /*!****************************************************************************!*\
   !*** E:/Workspace/uni-app/news/components/gaoyia-parse/libs/htmlparser.js ***!
   \****************************************************************************/
@@ -2593,135 +2814,6 @@ HTMLParser;exports.default = _default;
 
 /***/ }),
 
-/***/ 15:
-/*!**********************************************************************************************************!*\
-  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js ***!
-  \**********************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return normalizeComponent; });
-/* globals __VUE_SSR_CONTEXT__ */
-
-// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
-// This module is a runtime utility for cleaner component module output and will
-// be included in the final webpack user bundle.
-
-function normalizeComponent (
-  scriptExports,
-  render,
-  staticRenderFns,
-  functionalTemplate,
-  injectStyles,
-  scopeId,
-  moduleIdentifier, /* server only */
-  shadowMode, /* vue-cli only */
-  components, // fixed by xxxxxx auto components
-  renderjs // fixed by xxxxxx renderjs
-) {
-  // Vue.extend constructor export interop
-  var options = typeof scriptExports === 'function'
-    ? scriptExports.options
-    : scriptExports
-
-  // fixed by xxxxxx auto components
-  if (components) {
-    if (!options.components) {
-      options.components = {}
-    }
-    var hasOwn = Object.prototype.hasOwnProperty
-    for (var name in components) {
-      if (hasOwn.call(components, name) && !hasOwn.call(options.components, name)) {
-        options.components[name] = components[name]
-      }
-    }
-  }
-  // fixed by xxxxxx renderjs
-  if (renderjs) {
-    (renderjs.beforeCreate || (renderjs.beforeCreate = [])).unshift(function() {
-      this[renderjs.__module] = this
-    });
-    (options.mixins || (options.mixins = [])).push(renderjs)
-  }
-
-  // render functions
-  if (render) {
-    options.render = render
-    options.staticRenderFns = staticRenderFns
-    options._compiled = true
-  }
-
-  // functional template
-  if (functionalTemplate) {
-    options.functional = true
-  }
-
-  // scopedId
-  if (scopeId) {
-    options._scopeId = 'data-v-' + scopeId
-  }
-
-  var hook
-  if (moduleIdentifier) { // server build
-    hook = function (context) {
-      // 2.3 injection
-      context =
-        context || // cached call
-        (this.$vnode && this.$vnode.ssrContext) || // stateful
-        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
-      // 2.2 with runInNewContext: true
-      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
-        context = __VUE_SSR_CONTEXT__
-      }
-      // inject component styles
-      if (injectStyles) {
-        injectStyles.call(this, context)
-      }
-      // register component module identifier for async chunk inferrence
-      if (context && context._registeredComponents) {
-        context._registeredComponents.add(moduleIdentifier)
-      }
-    }
-    // used by ssr in case component is cached and beforeCreate
-    // never gets called
-    options._ssrRegister = hook
-  } else if (injectStyles) {
-    hook = shadowMode
-      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
-      : injectStyles
-  }
-
-  if (hook) {
-    if (options.functional) {
-      // for template-only hot-reload because in that case the render fn doesn't
-      // go through the normalizer
-      options._injectStyles = hook
-      // register for functioal component in vue file
-      var originalRender = options.render
-      options.render = function renderWithStyleInjection (h, context) {
-        hook.call(context)
-        return originalRender(h, context)
-      }
-    } else {
-      // inject component registration as beforeCreate hook
-      var existing = options.beforeCreate
-      options.beforeCreate = existing
-        ? [].concat(existing, hook)
-        : [hook]
-    }
-  }
-
-  return {
-    exports: scriptExports,
-    options: options
-  }
-}
-
-
-/***/ }),
-
 /***/ 16:
 /*!*****************************************************!*\
   !*** E:/Workspace/uni-app/news/common/api/index.js ***!
@@ -2795,25 +2887,25 @@ webpackContext.id = 17;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.update_comment = exports.get_detail = exports.update_label = exports.get_search = exports.update_like = exports.get_list = exports.get_label = void 0;var _http = _interopRequireDefault(__webpack_require__(/*! ../http.js */ 19));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+Object.defineProperty(exports, "__esModule", { value: true });exports.update_thumbsup = exports.update_author = exports.get_comments = exports.update_comment = exports.get_detail = exports.update_label = exports.get_search = exports.update_like = exports.get_list = exports.get_label = void 0;var _http = _interopRequireDefault(__webpack_require__(/*! ../http.js */ 19));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
 /* return new Promise((reslove, reject) => {
-                                                                                                                                                                                                                                                                                                                                                                                                 	// 调用云函数方法
-                                                                                                                                                                                                                                                                                                                                                                                                 	uniCloud.callFunction({
-                                                                                                                                                                                                                                                                                                                                                                                                 		name: 'get_label',
-                                                                                                                                                                                                                                                                                                                                                                                                 		data
-                                                                                                                                                                                                                                                                                                                                                                                                 	}).then(res => {
-                                                                                                                                                                                                                                                                                                                                                                                                 		if(res.result.code === 200){
-                                                                                                                                                                                                                                                                                                                                                                                                 			// .then
-                                                                                                                                                                                                                                                                                                                                                                                                 			reslove(res.result)
-                                                                                                                                                                                                                                                                                                                                                                                                 		}else{
-                                                                                                                                                                                                                                                                                                                                                                                                 			// catch
-                                                                                                                                                                                                                                                                                                                                                                                                 			reject(res.result)
-                                                                                                                                                                                                                                                                                                                                                                                                 		}
-                                                                                                                                                                                                                                                                                                                                                                                                 	}).catch(err => {
-                                                                                                                                                                                                                                                                                                                                                                                                 		reject(err)
-                                                                                                                                                                                                                                                                                                                                                                                                 	})
-                                                                                                                                                                                                                                                                                                                                                                                                 })	 */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                          	// 调用云函数方法
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                          	uniCloud.callFunction({
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                          		name: 'get_label',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                          		data
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                          	}).then(res => {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                          		if(res.result.code === 200){
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                          			// .then
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                          			reslove(res.result)
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                          		}else{
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                          			// catch
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                          			reject(res.result)
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                          		}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                          	}).catch(err => {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                          		reject(err)
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                          	})
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                          })	 */
 
 var get_label = function get_label(data) {
   return (0, _http.default)({
@@ -2863,6 +2955,27 @@ var update_comment = function update_comment(data) {
     data: data });
 
 };exports.update_comment = update_comment;
+
+var get_comments = function get_comments(data) {
+  return (0, _http.default)({
+    url: 'get_comments',
+    data: data });
+
+};exports.get_comments = get_comments;
+
+var update_author = function update_author(data) {
+  return (0, _http.default)({
+    url: 'update_author',
+    data: data });
+
+};exports.update_author = update_author;
+
+var update_thumbsup = function update_thumbsup(data) {
+  return (0, _http.default)({
+    url: 'update_thumbsup',
+    data: data });
+
+};exports.update_thumbsup = update_thumbsup;
 
 /***/ }),
 
@@ -8967,9 +9080,9 @@ internalMixin(Vue);
         "127.0.0.1",
         "192.168.0.101"
     ],
-    "debugPort": 59449,
+    "debugPort": 50393,
     "initialLaunchType": "remote",
-    "servePort": 59450
+    "servePort": 50394
 }
 ; true && r && !r.code && (t.debugInfo = r), t.isReady = !1;var o = t.auth();return t.initUniCloud = o.getLoginState().then(function (e) {return e ? Promise.resolve() : o.signInAnonymously();}).then(function () {if ( true && t.debugInfo) {var _t$debugInfo = t.debugInfo,_e7 = _t$debugInfo.address,_n3 = _t$debugInfo.servePort;return function () {var _ref11 = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee(e, t) {var n, _r7, _o;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_r7 = 0;case 1:if (!(_r7 < e.length)) {_context.next = 11;break;}_o = e[_r7];_context.next = 5;return fe(_o, t);case 5:if (!_context.sent) {_context.next = 8;break;}n = _o;return _context.abrupt("break", 11);case 8:_r7++;_context.next = 1;break;case 11:return _context.abrupt("return", { address: n, port: t });case 12:case "end":return _context.stop();}}}, _callee);}));return function (_x3, _x4) {return _ref11.apply(this, arguments);};}()(_e7, _n3);}return Promise.resolve();}).then(function () {var _ref12 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},e = _ref12.address,n = _ref12.port;if (e) t.localAddress = e, t.localPort = n;else if (t.debugInfo) {var _e8 =  false ? undefined : "warn",_n4 = console[_e8];"remote" === t.debugInfo.initialLaunchType ? (t.debugInfo.forceRemote = !0, _n4("当前客户端和HBuilderX不在同一局域网下（或其他网络原因无法连接HBuilderX），uniCloud本地调试服务不对当前客户端生效。\n- 如果不使用uniCloud本地调试服务，请直接忽略此信息。\n- 如需使用uniCloud本地调试服务，请将客户端与主机连接到同一局域网下并重新运行到客户端。\n- 如果在HBuilderX开启的状态下切换过网络环境，请重启HBuilderX后再试")) : _n4("无法连接uniCloud本地调试服务，请检查当前客户端是否与主机在同一局域网下。\n- 如需使用uniCloud本地调试服务，请将客户端与主机连接到同一局域网下并重新运行到客户端。\n- 如果在HBuilderX开启的状态下切换过网络环境，请重启HBuilderX后再试");}}).then(function () {return new Promise(function (e) { false ? (undefined) : setTimeout(function () {u = uni.getSystemInfoSync().platform, c = uni.getStorageSync("__DC_CLOUD_UUID") || l(32), e();}, 0);});}).then(function () {t.isReady = !0;}), ie(t), function (e) {var t = e.uploadFile;e.uploadFile = function (e) {var _this10 = this;var n;return n = this.isReady ? Promise.resolve() : this.initUniCloud, n.then(function () {return t.call(_this10, e);});};var n = e.uploadFile;e.uploadFile = function (e) {return s(n).call(this, e);};}(t), function (e) {e.database = function () {if (this._database) return this._database;var t = {},n = {};var r = /*#__PURE__*/function () {function r(e, t, n) {_classCallCheck(this, r);this.content = e, this.prevStage = t, this.actionName = n;}_createClass(r, [{ key: "toJSON", value: function toJSON() {var e = this;var t = [e.content];for (; e.prevStage;) {e = e.prevStage, t.push(e.content);}return { $db: t.reverse().map(function (e) {return { $method: e.$method, $param: e.$param };}) };} }, { key: "get", value: function get() {return this._send("get", Array.from(arguments));} }, { key: "add", value: function add() {return this._send("add", Array.from(arguments));} }, { key: "remove", value: function remove() {return this._send("remove", Array.from(arguments));} }, { key: "update", value: function update() {return this._send("update", Array.from(arguments));} }, { key: "end", value: function end() {return this._send("end", Array.from(arguments));} }, { key: "set", value: function set() {throw new Error("客户端禁止使用set方法");} }, { key: "_send", value: function _send(r, o) {var s = this.toJSON();return s.$db.push({ $method: r, $param: o }), e.callFunction({ name: "DCloud-clientDB", data: { action: this.actionName, command: s } }).then(function (e) {var _e$result = e.result,r = _e$result.code,o = _e$result.message,s = _e$result.token,i = _e$result.tokenExpired;return r ? Promise.reject(new ue(o, r)) : (s && i && t.refreshToken && t.refreshToken.forEach(function (e) {e({ token: s, tokenExpired: i });}), s && i && n.refreshToken && n.refreshToken.forEach(function (e) {e({ token: s, tokenExpired: i });}), Promise.resolve(e));}).catch(function (e) {var t = new ue(e.message, e.code || "SYSTEM_ERROR");return n.error && n.error.forEach(function (e) {e(t);}), /fc_function_not_found|FUNCTION_NOT_FOUND/g.test(e.message) && console.warn("clientDB未初始化，请在web控制台保存一次schema以开启clientDB"), Promise.reject(e);});} }, { key: "useAggregate", get: function get() {var e = this,t = !1;for (; e.prevStage;) {e = e.prevStage;var _n5 = e.content.$method;if ("aggregate" === _n5 || "pipeline" === _n5) {t = !0;break;}}return t;} }, { key: "count", get: function get() {if (!this.useAggregate) return function () {return this._send("count", Array.from(arguments));};var e = this;return function () {return i({ $method: "count", $param: le(Array.from(arguments)) }, e, e.actionName);};} }]);return r;}();var o = ["db.Geo", "db.command", "command.aggregate"];function s(e, t) {return o.indexOf("".concat(e, ".").concat(t)) > -1;}function i(e, t, n) {return ce(new r(e, t, n), { get: function get(e, t) {var r = "db";return e && e.content && (r = e.content.$method), s(r, t) ? i({ $method: t }, e, n) : function () {return i({ $method: t, $param: le(Array.from(arguments)) }, e, n);};} });}function a(_ref13) {var e = _ref13.path,t = _ref13.method;return /*#__PURE__*/function () {function _class2() {_classCallCheck(this, _class2);this.param = Array.from(arguments);}_createClass(_class2, [{ key: "toJSON", value: function toJSON() {return { $newDb: [].concat(_toConsumableArray(e.map(function (e) {return { $method: e };})), [{ $method: t, $param: this.param }]) };} }]);return _class2;}();}var c = { auth: { on: function on(e, n) {t[e] = t[e] || [], t[e].indexOf(n) > -1 || t[e].push(n);}, off: function off(e, n) {t[e] = t[e] || [];var r = t[e].indexOf(n);-1 !== r && t[e].splice(r, 1);} }, on: function on(e, t) {n[e] = n[e] || [], n[e].indexOf(t) > -1 || n[e].push(t);}, off: function off(e, t) {n[e] = n[e] || [];var r = n[e].indexOf(t);-1 !== r && n[e].splice(r, 1);}, env: ce({}, { get: function get(e, t) {return { $env: t };} }), action: function action(e) {return ce({}, { get: function get(t, n) {return s("db", n) ? i({ $method: n }, null, e) : function () {return i({ $method: n, $param: le(Array.from(arguments)) }, null, e);};} });}, Geo: ce({}, { get: function get(e, t) {return a({ path: ["Geo"], method: t });} }), getCloudEnv: function getCloudEnv(e) {if ("string" != typeof e || !e.trim()) throw new Error("getCloudEnv参数错误");return { $env: e.replace("$cloudEnv_", "") };}, get serverDate() {return a({ path: [], method: "serverDate" });}, get RegExp() {return a({ path: [], method: "RegExp" });} },u = ce(c, { get: function get(e, t) {return s("db", t) ? i({ $method: t }) : function () {return i({ $method: t, $param: le(Array.from(arguments)) });};} });return this._database = u, u;};}(t), function (e) {e.getCurrentUserInfo = he, e.chooseAndUploadFile = s(pe.initChooseAndUploadFile(e));}(t), t.init = this.init, t;} }]);return _class;}())();{var _e9 = {};if (1 === [{"provider":"aliyun","spaceName":"news","spaceId":"5094e69c-d062-4e20-b909-e836247f51d9","clientSecret":"OACfyLUBb9lv3M6RzRsQqQ==","endpoint":"https://api.bspapp.com"}].length) _e9 = [{"provider":"aliyun","spaceName":"news","spaceId":"5094e69c-d062-4e20-b909-e836247f51d9","clientSecret":"OACfyLUBb9lv3M6RzRsQqQ==","endpoint":"https://api.bspapp.com"}][0], de = de.init(_e9);else {var _e10 = ["auth", "callFunction", "uploadFile", "deleteFile", "getTempFileURL", "downloadFile", "database", "getCurrentUSerInfo"],_t2 = [{"provider":"aliyun","spaceName":"news","spaceId":"5094e69c-d062-4e20-b909-e836247f51d9","clientSecret":"OACfyLUBb9lv3M6RzRsQqQ==","endpoint":"https://api.bspapp.com"}].length > 0 ? "应用有多个服务空间，请通过uniCloud.init方法指定要使用的服务空间" : "应用未关联服务空间，请在cloudfunctions目录右键关联服务空间";_e10.forEach(function (e) {de[e] = function () {return console.error(_t2), Promise.reject(new i({ code: "SYS_ERR", message: _t2 }));};});}Object.assign(de, { get mixinDatacom() {return e = de, { props: { localdata: { type: Array, default: function _default() {return [];} }, options: { type: [Object, Array], default: function _default() {return {};} }, collection: { type: String, default: "" }, action: { type: String, default: "" }, field: { type: String, default: "" }, orderby: { type: String, default: "" }, where: { type: [String, Object], default: "" }, pageData: { type: String, default: "add" }, pageCurrent: { type: Number, default: 1 }, pageSize: { type: Number, default: 20 }, getcount: { type: [Boolean, String], default: !1 }, gettree: { type: [Boolean, String], default: !1 }, gettreepath: { type: [Boolean, String], default: !1 }, startwith: { type: String, default: "" }, limitlevel: { type: Number, default: 10 }, groupby: { type: String, default: "" }, groupField: { type: String, default: "" }, distinct: { type: [Boolean, String], default: !1 }, manual: { type: Boolean, default: !1 } }, data: function data() {return { mixinDatacomLoading: !1, mixinDatacomHasMore: !1, mixinDatacomResData: [], mixinDatacomErrorMessage: "", mixinDatacomPage: {} };}, created: function created() {var _this11 = this;this.mixinDatacomPage = { current: this.pageCurrent, size: this.pageSize, count: 0 }, this.$watch(function () {var e = [];return ["pageCurrent", "pageSize", "localdata", "collection", "action", "field", "orderby", "where", "getont", "getcount", "gettree", "groupby", "groupField", "distinct"].forEach(function (t) {e.push(_this11[t]);}), e;}, function (e, t) {var n = !1;var r = [];for (var _o2 = 2; _o2 < e.length; _o2++) {e[_o2] !== t[_o2] && (r.push(e[_o2]), n = !0);}e[0] !== t[0] && (_this11.mixinDatacomPage.current = _this11.pageCurrent), _this11.mixinDatacomPage.size = _this11.pageSize, _this11.onMixinDatacomPropsChange(n, r);});}, methods: { onMixinDatacomPropsChange: function onMixinDatacomPropsChange(e, t) {}, mixinDatacomEasyGet: function mixinDatacomEasyGet() {var _this12 = this;var _ref14 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},_ref14$getone = _ref14.getone,e = _ref14$getone === void 0 ? !1 : _ref14$getone,t = _ref14.success,n = _ref14.fail;this.mixinDatacomLoading || (this.mixinDatacomLoading = !0, this.mixinDatacomErrorMessage = "", this.mixinDatacomGet().then(function (n) {_this12.mixinDatacomLoading = !1;var _n$result = n.result,r = _n$result.data,o = _n$result.count;_this12.getcount && (_this12.mixinDatacomPage.count = o), _this12.mixinDatacomHasMore = r.length < _this12.pageSize;var s = e ? r.length ? r[0] : void 0 : r;_this12.mixinDatacomResData = s, t && t(s);}).catch(function (e) {_this12.mixinDatacomLoading = !1, _this12.mixinDatacomErrorMessage = e, n && n(e);}));}, mixinDatacomGet: function mixinDatacomGet() {var t = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};var n = e.database();var r = t.action || this.action;r && (n = n.action(r));var o = t.collection || this.collection;n = n.collection(o);var s = t.where || this.where;s && Object.keys(s).length && (n = n.where(s));var i = t.field || this.field;i && (n = n.field(i));var a = t.groupby || this.groupby;a && (n = n.groupBy(a));var c = t.groupField || this.groupField;c && (n = n.groupField(c)), !0 === (void 0 !== t.distinct ? t.distinct : this.distinct) && (n = n.distinct());var u = t.orderby || this.orderby;u && (n = n.orderBy(u));var l = void 0 !== t.pageCurrent ? t.pageCurrent : this.mixinDatacomPage.current,h = void 0 !== t.pageSize ? t.pageSize : this.mixinDatacomPage.size,p = void 0 !== t.getcount ? t.getcount : this.getcount,f = void 0 !== t.gettree ? t.gettree : this.gettree,d = void 0 !== t.gettreepath ? t.gettreepath : this.gettreepath,g = { getCount: p },y = { limitLevel: void 0 !== t.limitlevel ? t.limitlevel : this.limitlevel, startWith: void 0 !== t.startwith ? t.startwith : this.startwith };return f && (g.getTree = y), d && (g.getTreePath = y), n = n.skip(h * (l - 1)).limit(h).get(g), n;} } };var e;} });}var ge = de;var _default2 = ge;exports.default = _default2;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../webpack/buildin/global.js */ 3), __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
@@ -9776,98 +9889,6 @@ if (hadRuntime) {
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "appid": "__UNI__51008C9" };exports.default = _default;
-
-/***/ }),
-
-/***/ 243:
-/*!***************************************************************!*\
-  !*** E:/Workspace/uni-app/news/components/uni-popup/popup.js ***!
-  \***************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _message = _interopRequireDefault(__webpack_require__(/*! ./message.js */ 244));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-// 定义 type 类型:弹出类型：top/bottom/center
-var config = {
-  // 顶部弹出
-  top: 'top',
-  // 底部弹出
-  bottom: 'bottom',
-  // 居中弹出
-  center: 'center',
-  // 消息提示
-  message: 'top',
-  // 对话框
-  dialog: 'center',
-  // 分享
-  share: 'bottom' };var _default =
-
-
-{
-  data: function data() {
-    return {
-      config: config,
-      popupWidth: 0,
-      popupHeight: 0 };
-
-  },
-  mixins: [_message.default],
-  computed: {
-    isDesktop: function isDesktop() {
-      return this.popupWidth >= 500 && this.popupHeight >= 500;
-    } },
-
-  mounted: function mounted() {var _this = this;
-    var fixSize = function fixSize() {var _uni$getSystemInfoSyn =
-
-
-
-
-      uni.getSystemInfoSync(),windowWidth = _uni$getSystemInfoSyn.windowWidth,windowHeight = _uni$getSystemInfoSyn.windowHeight,windowTop = _uni$getSystemInfoSyn.windowTop;
-      _this.popupWidth = windowWidth;
-      _this.popupHeight = windowHeight + windowTop;
-    };
-    fixSize();
-
-
-
-
-
-
-  } };exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
-
-/***/ }),
-
-/***/ 244:
-/*!*****************************************************************!*\
-  !*** E:/Workspace/uni-app/news/components/uni-popup/message.js ***!
-  \*****************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = {
-  created: function created() {
-    if (this.type === 'message') {
-      // 不显示遮罩
-      this.maskShow = false;
-      // 获取子组件对象
-      this.childrenMsg = null;
-    }
-  },
-  methods: {
-    customOpen: function customOpen() {
-      if (this.childrenMsg) {
-        this.childrenMsg.open();
-      }
-    },
-    customClose: function customClose() {
-      if (this.childrenMsg) {
-        this.childrenMsg.close();
-      }
-    } } };exports.default = _default;
 
 /***/ }),
 

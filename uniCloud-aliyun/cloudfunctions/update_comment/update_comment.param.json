@@ -2,5 +2,8 @@
 // 配置教程参考：https://uniapp.dcloud.net.cn/uniCloud/quickstart?id=runparam
 {	"user_id":"605c310f99548d000188b0e4",
 	"article_id":"605c310e73c0390001dd9ba8",
-	"content":"评论成功"
+	"comment_id": "6w7q0pf52r40",
+	"reply_id": "vb4suwuwwxs",
+	"isReply": true,
+	"content":"子回复成功"
 }

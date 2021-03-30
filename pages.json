@@ -55,6 +55,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/detail-comments/detail-comments",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "评论详情",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

@@ -105,7 +105,7 @@
 /******/
 /******/
 /******/ 		// mini-css-extract-plugin CSS loading
-/******/ 		var cssChunks = {"components/list/list":1,"components/navbar/navbar":1,"components/tab/tab":1,"components/list-card/list-card":1,"components/list-scroll/list-scroll":1,"components/uni-load-more/uni-load-more":1,"components/uni-icons/uni-icons":1,"components/uni-popup/uni-popup":1,"components/list/childComps/list-item":1,"components/likes/likes":1,"components/uni-transition/uni-transition":1,"components/gaoyia-parse/components/wxParseTable":1};
+/******/ 		var cssChunks = {"components/list/list":1,"components/navbar/navbar":1,"components/tab/tab":1,"components/list-card/list-card":1,"components/list-scroll/list-scroll":1,"components/uni-load-more/uni-load-more":1,"components/uni-icons/uni-icons":1,"components/uni-popup/uni-popup":1,"components/comments-box/comments-box":1,"components/list/childComps/list-item":1,"components/likes/likes":1,"components/uni-transition/uni-transition":1,"components/gaoyia-parse/components/wxParseTable":1};
 /******/ 		if(installedCssChunks[chunkId]) promises.push(installedCssChunks[chunkId]);
 /******/ 		else if(installedCssChunks[chunkId] !== 0 && cssChunks[chunkId]) {
 /******/ 			promises.push(installedCssChunks[chunkId] = new Promise(function(resolve, reject) {
