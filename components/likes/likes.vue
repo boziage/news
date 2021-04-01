@@ -15,6 +15,10 @@
 					return {}
 				}
 			},
+			types: {
+				type: String,
+				default: ''
+			},
 		},
 		data() {
 			return {
@@ -35,11 +39,9 @@
 				this.setUpdateLikes()
 			},
 			setUpdateLikes(){
-				uni.showLoading({
-					
-				})
+				uni.showLoading()
 				this.$api.update_like({
-					user_id: '605c310f99548d000188b0e4',
+					// user_id: '605c310f99548d000188b0e4',
 					article_id: this.item._id
 				}).then(res => {
 					uni.hideLoading()
@@ -47,6 +49,7 @@
 						title: this.isLike?'收藏成功':'取消收藏',
 						icon:'none'
 					})
+					uni.$emit('update_article', this.types)
 					console.log(res)
 				}).catch(() => {
 					uni.hideLoading()

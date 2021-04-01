@@ -25,7 +25,7 @@
 /* 透明度 */
 /* 文章场景相关 */
 .comments-content {
-  padding: 0 15px 1px;
+  padding: 0 15px;
   border-top: 1px solid #ccc;
 }
 

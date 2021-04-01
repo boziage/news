@@ -14,7 +14,7 @@
 				
 				<!-- 搜索历史 -->
 				<view v-if="historyLists.length > 0" class="label-content">
-					<view v-for="(item,index) in  historyLists" :key="index" class="label-content_item" @click="openHistory(item)">
+					<view v-for="(item,index) in historyLists" :key="index" class="label-content_item" @click="openHistory(item)">
 						{{item.name}}
 					</view>
 				</view>
@@ -60,6 +60,9 @@
 			openHistory(item) {
 				this.value = item.name
 				this.getSearch(this.value)
+				this.$store.dispatch('set_history', {
+					name: this.value
+				})
 			},
 			
 			setHistory() {

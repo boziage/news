@@ -1,6 +1,8 @@
 <template>
 	<list-scroll class="list-scroll" @loadMore="loadMore">
-		<list-card :item="item" v-for="item in list" :key="item._id"></list-card>
+		<view>
+			<list-card :item="item" v-for="item in list" :key="item.id"></list-card>
+		</view>
 		<uni-load-more v-if="list.length === 0 || list.length >= pageSize" iconType="snow" :status="load.loading"></uni-load-more>
 	</list-scroll>
 </template>

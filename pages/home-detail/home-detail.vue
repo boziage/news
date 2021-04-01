@@ -20,14 +20,16 @@
 		
 		<view class="detail-content">
 			<view class="detail-html">
-				<!-- <u-parse :content="formData.content" :noData="noData"></u-parse> -->
-				内容
+				<u-parse :content="formData.content" :noData="noData"></u-parse>
 			</view>
 			
 			 <view class="detail-comment">
 			 	<view class="comment-title">最新评论</view>
-			 	<view v-for="item in commentsList" :key="item.comment_id" class="comment-content">
+			 	<view v-if="commentsList.length > 0" v-for="item in commentsList" :key="item.comment_id" class="comment-content">
 					<comments-box :comments="item" @reply="reply"></comments-box>
+				</view>
+				<view v-if="!load && commentsList.length === 0" class="no-data">
+					暂无评论，快来抢沙发！
 				</view>
 			 </view>
 		</view>
@@ -38,7 +40,7 @@
 				<uni-icons type="compose" size="16" color="#f07373"></uni-icons>
 			</view>
 			<view class="detail-buttom_icons">
-				<view class="detail-buttom_icons-box" @click="open">
+				<view class="detail-buttom_icons-box" @click="showComments">
 					<uni-icons type="chat" size="22" color="#f07373"></uni-icons>
 				</view>
 				<!-- get_detail里面有是否收藏的key -->
@@ -50,21 +52,7 @@
 				</view>
 			</view>
 		</view>
-		<!-- popup在uni里面不能在原生组件用 -->
-		<uni-popup ref="popup" type="bottom" :maskClick="false">
-			<view class="popup-wrap">
-				<view class="popup-header">
-					<text class="popup-header_item" @click="closeComment">取消</text>
-					<text class="popup-header_item" @click="submitComment">发布</text>
-				</view>
-				<view class="popup-content">
-					<textarea class="popup-textarea" v-model="commentValue" maxlength="200" fixed placeholder="请输入评论内容" />
-					<view class="popup-count">
-						{{commentValue.length}}/200
-					</view>
-				</view>
-			</view>
-		</uni-popup>
+		<release ref="popup" @submitComment="submitComment"></release>
 	</view>
 </template>
 
@@ -79,10 +67,9 @@
 			return {
 				formData: {},
 				noData: '<p style="text-align:center;color:#666">详情加载中...</p>',
-				// 输入框的值
-				commentValue: '',
 				commentsList: [],
-				replyFormData: {}
+				replyFormData: {},
+				load: true
 			}
 		},
 		onLoad(query) {
@@ -90,16 +77,23 @@
 			this.formData = data
 			this.getDetail()
 			this.getComments()
+			
 		},
 		// onLoad这些节点还没渲染完成,onReady表示所有页面渲染完毕后使用
 		onReady() {
 			
 		},
+		onBackPress() {
+			uni.$off('getComments')
+		},
 		methods: {
 			// 打开评论列表
-			open() {
+			showComments() {
 				uni.navigateTo({
 					url:'../detail-comments/detail-comments?id='+this.formData._id
+				})
+				uni.$on('getComments' ,() => {
+					this.getComments()
 				})
 			},
 			// 关注
@@ -109,7 +103,7 @@
 			},
 			// 收藏
 			likeTap(article_id) {
-				console.log('收藏文章');
+				// console.log('收藏文章');
 				this.setUpdataLike(article_id)
 			},
 			// 点赞
@@ -126,6 +120,7 @@
 					const {data} = res
 					this.formData = data
 					console.log(res);
+					this.load = this.commentsList.length === 0 ? false:true
 				})
 			},
 			// 更新评论
@@ -142,7 +137,7 @@
 						title: '评论成功',
 						icon: 'none'
 					})
-					this.commentValue = ''
+					this.$refs.popup.commentValue = ''
 					this.getComments()
 					this.closeComment()
 					this.replyFormData = {}
@@ -166,6 +161,7 @@
 				}).then(res => {
 					uni.hideLoading()
 					this.formData.is_author_like = !this.formData.is_author_like
+					uni.$emit('update_author')
 					uni.showToast({
 						title:this.formData.is_author_like?'关注作者成功':'取消关注作者',
 						icon:'none'
@@ -180,7 +176,7 @@
 				}).then(res => {
 					uni.hideLoading()
 					this.formData.is_like = !this.formData.is_like
-					uni.$emit('update_article')
+					uni.$emit('update_article', 'follow')
 					uni.showToast({
 						title:this.formData.is_like?'收藏成功':'取消收藏',
 						icon:'none'
@@ -214,16 +210,8 @@
 				this.$refs.popup.close()
 			},
 			// 提交评论发布窗口
-			submitComment() {
-				console.log('发布')
-				if(!this.commentValue) {
-					uni.showToast({
-						title: '请输入评论内容',
-						icon:"none"
-					})
-					return
-				}
-				this.setUpdateComment({content:this.commentValue,...this.replyFormData})
+			submitComment(content) {
+				this.setUpdateComment({content,...this.replyFormData})
 			},
 			reply(e) {
 				this.replyFormData = {
@@ -297,7 +285,7 @@
 	.detail-content {
 		margin-top: 20px;
 		min-height: 500px;
-		
+		font-size: 14px;
 		.detail-html {
 			padding:0 15px;
 		}
@@ -315,6 +303,14 @@
 				border: 1px solid #ccc;
 				box-shadow: 0 0.5px 2px rgba($color: #000000, $alpha: 0.3);
 				border-radius: 5px;
+			}
+			.no-data {
+				height: 200px;
+				line-height: 200px;
+				text-align: center;
+				width: 100%;
+				color: #666;
+				font-size: 12px;
 			}
 		}
 	}

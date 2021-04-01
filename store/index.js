@@ -10,6 +10,7 @@ Vue.use(Vuex)
 
 // 2.创建Store对象
 const state ={
+	userinfo: uni.getStorageSync("USERINFO") || {},
 	// 用本地缓存持久化数据,避免刷新页面数据初始
 	historyLists: uni.getStorageSync("_history") || [],
 }

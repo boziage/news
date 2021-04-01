@@ -1,6 +1,7 @@
 import {
   SET_HISTORY_LISTS,
-  CLEAR_HISTORY
+  CLEAR_HISTORY,
+  SET_USER_INFO
 } from './mutations-types'
 
 export default {
@@ -12,5 +13,9 @@ export default {
   
   [CLEAR_HISTORY](state){
 	state.historyLists = []
+  },
+  
+  [SET_USER_INFO](state, userinfo){
+	  state.userinfo = userinfo
   }
 }

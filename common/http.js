@@ -1,3 +1,5 @@
+import store from '../store/index.js'
+
 export default function $http(options){
 	// 解构赋值
 	const {
@@ -5,7 +7,7 @@ export default function $http(options){
 		data
 	} = options
 	const dataObj = {
-		user_id: '605c310f99548d000188b0e4',
+		user_id: store.state.userinfo._id,
 		...data
 	}
 	return new Promise((reslove, reject) => {

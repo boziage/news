@@ -101,8 +101,8 @@ try {
     uniIcons: function() {
       return Promise.all(/*! import() | components/uni-icons/uni-icons */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-icons/uni-icons")]).then(__webpack_require__.bind(null, /*! @/components/uni-icons/uni-icons.vue */ 119))
     },
-    uniPopup: function() {
-      return Promise.all(/*! import() | components/uni-popup/uni-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-popup/uni-popup")]).then(__webpack_require__.bind(null, /*! @/components/uni-popup/uni-popup.vue */ 134))
+    release: function() {
+      return __webpack_require__.e(/*! import() | components/release/release */ "components/release/release").then(__webpack_require__.bind(null, /*! @/components/release/release.vue */ 134))
     }
   }
 } catch (e) {
@@ -159,21 +159,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var uParse = function uParse() {Promise.all(/*! require.ensure | components/gaoyia-parse/parse */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/gaoyia-parse/parse")]).then((function () {return resolve(__webpack_require__(/*! @/components/gaoyia-parse/parse.vue */ 143));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var uParse = function uParse() {Promise.all(/*! require.ensure | components/gaoyia-parse/parse */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/gaoyia-parse/parse")]).then((function () {return resolve(__webpack_require__(/*! @/components/gaoyia-parse/parse.vue */ 141));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -240,8 +226,6 @@ __webpack_require__.r(__webpack_exports__);
     return {
       formData: {},
       noData: '<p style="text-align:center;color:#666">详情加载中...</p>',
-      // 输入框的值
-      commentValue: '',
       commentsList: [],
       replyFormData: {} };
 
@@ -251,17 +235,24 @@ __webpack_require__.r(__webpack_exports__);
     this.formData = data;
     this.getDetail();
     this.getComments();
+
   },
   // onLoad这些节点还没渲染完成,onReady表示所有页面渲染完毕后使用
   onReady: function onReady() {
 
   },
+  onBackPress: function onBackPress() {
+    uni.$off('getComments');
+  },
   methods: {
     // 打开评论列表
-    open: function open() {
+    showComments: function showComments() {var _this = this;
       uni.navigateTo({
         url: '../detail-comments/detail-comments?id=' + this.formData._id });
 
+      uni.$on('getComments', function () {
+        _this.getComments();
+      });
     },
     // 关注
     follow: function follow(author_id) {
@@ -280,17 +271,17 @@ __webpack_require__.r(__webpack_exports__);
 
 
     // 获取详情信息
-    getDetail: function getDetail() {var _this = this;
+    getDetail: function getDetail() {var _this2 = this;
       this.$api.get_detail({
         article_id: this.formData._id }).
       then(function (res) {var
         data = res.data;
-        _this.formData = data;
+        _this2.formData = data;
         console.log(res);
       });
     },
     // 更新评论
-    setUpdateComment: function setUpdateComment(content) {var _this2 = this;
+    setUpdateComment: function setUpdateComment(content) {var _this3 = this;
       var formdata = _objectSpread({
         article_id: this.formData._id },
       content);
@@ -303,60 +294,60 @@ __webpack_require__.r(__webpack_exports__);
           title: '评论成功',
           icon: 'none' });
 
-        _this2.commentValue = '';
-        _this2.getComments();
-        _this2.closeComment();
-        _this2.replyFormData = {};
+        _this3.$refs.popup.commentValue = '';
+        _this3.getComments();
+        _this3.closeComment();
+        _this3.replyFormData = {};
       });
     },
     // 请求评论内容
-    getComments: function getComments() {var _this3 = this;
+    getComments: function getComments() {var _this4 = this;
       this.$api.get_comments({
         article_id: this.formData._id }).
       then(function (res) {
         console.log(res);var
         data = res.data;
-        _this3.commentsList = data;
+        _this4.commentsList = data;
       });
     },
     // 关注作者
-    setUpdateAuthor: function setUpdateAuthor(author_id) {var _this4 = this;
+    setUpdateAuthor: function setUpdateAuthor(author_id) {var _this5 = this;
       uni.showLoading();
       this.$api.update_author({
         author_id: author_id }).
       then(function (res) {
         uni.hideLoading();
-        _this4.formData.is_author_like = !_this4.formData.is_author_like;
+        _this5.formData.is_author_like = !_this5.formData.is_author_like;
         uni.showToast({
-          title: _this4.formData.is_author_like ? '关注作者成功' : '取消关注作者',
+          title: _this5.formData.is_author_like ? '关注作者成功' : '取消关注作者',
           icon: 'none' });
 
       });
     },
     // 收藏文章
-    setUpdataLike: function setUpdataLike(article_id) {var _this5 = this;
+    setUpdataLike: function setUpdataLike(article_id) {var _this6 = this;
       uni.showLoading();
       this.$api.update_like({
         article_id: article_id }).
       then(function (res) {
         uni.hideLoading();
-        _this5.formData.is_like = !_this5.formData.is_like;
+        _this6.formData.is_like = !_this6.formData.is_like;
         uni.$emit('update_article');
         uni.showToast({
-          title: _this5.formData.is_like ? '收藏成功' : '取消收藏',
+          title: _this6.formData.is_like ? '收藏成功' : '取消收藏',
           icon: 'none' });
 
       });
     },
     // 点赞
-    setUpdataThumbs: function setUpdataThumbs(article_id) {var _this6 = this;
+    setUpdataThumbs: function setUpdataThumbs(article_id) {var _this7 = this;
       uni.showLoading();
       this.$api.update_thumbsup({
         article_id: article_id }).
       then(function (res) {
         uni.hideLoading();
-        if (!_this6.formData.is_thumbs_up) _this6.formData.thumbs_up_count++;
-        _this6.formData.is_thumbs_up = true;
+        if (!_this7.formData.is_thumbs_up) _this7.formData.thumbs_up_count++;
+        _this7.formData.is_thumbs_up = true;
         uni.showToast({
           title: res.msg,
           icon: 'none' });
@@ -375,16 +366,8 @@ __webpack_require__.r(__webpack_exports__);
       this.$refs.popup.close();
     },
     // 提交评论发布窗口
-    submitComment: function submitComment() {
-      console.log('发布');
-      if (!this.commentValue) {
-        uni.showToast({
-          title: '请输入评论内容',
-          icon: "none" });
-
-        return;
-      }
-      this.setUpdateComment(_objectSpread({ content: this.commentValue }, this.replyFormData));
+    submitComment: function submitComment(content) {
+      this.setUpdateComment(_objectSpread({ content: content }, this.replyFormData));
     },
     reply: function reply(e) {
       this.replyFormData = {

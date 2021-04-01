@@ -48,10 +48,14 @@
 		// onLoad 在页面,created 组件
 		created() {
 			// tab还没有赋值
-			uni.$on('update_article',() => {
-				this.getList(this.listIndex)
-				this.listCatchData = {}
-				this.load = {}
+			uni.$on('update_article',(e) => {
+				console.log(e);
+				if(e === 'follow'){
+					this.load = {}
+					this.listCatchData = {}
+					this.getList(this.listIndex)
+				}
+				
 			})
 		},
 		methods: {
